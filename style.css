@@ -1,0 +1,219 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
+
+:root {
+    --color_box_shadow: rgba(0, 0, 0, 0.38);
+    --color_main_1: rgb(108, 88, 243);
+    --color_main_2: rgb(155, 108, 202);
+    --color_main_3: rgb(197, 161, 233);
+    --off-color_1: rgb(158, 155, 155);
+    --off_color_2: rgba(173, 171, 171, 0.336);
+    --color_error_1: rgb(255, 214, 214);
+    --color_error_2: rgb(255, 166, 166);
+    --color_error_3: rgb(119, 56, 56);
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    position: relative;
+    font-family: Muli, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--color_main_3);
+    transition: background 1s ease-in;
+}
+
+body.loading .spinner {
+    opacity: 1;
+}
+
+body.error {
+    background-color: var(--color_error_1);
+}
+
+body.error .spinner::before {
+    border-bottom-color: var(--color_error_3);
+}
+
+body.error .background {
+    background-color: var(--color_error_2);
+}
+
+body.error h1::before {
+    content: 'Error';
+    color: var(--color_error_3);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background-color: white;
+}
+
+body.error h1,
+body.error p {
+    color: var(--color_error_3);
+}
+
+body.error button {
+    background-color: var(--color_error_3);
+}
+
+body.error button:not(:disabled):active,
+body.error button:not(:disabled):hover {
+    background-color: var(--color_error_2);
+}
+
+body.error .typing::after {
+    color: var(--color_error_3);
+}
+
+body.loading .background {
+    background-color: var(--color_main_3);
+    background: linear-gradient(
+        to right,
+        var(--color_main_3),
+        var(--color_main_2),
+        var(--color_main_3)
+    );
+}
+
+body.error.loading .background {
+    background: linear-gradient(
+        to right,
+        var(--color_error_2),
+        var(--color_error_3),
+        var(--color_error_2)
+    );
+}
+
+div.background {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 300vw;
+    transform: translateX(-100vw);
+    background-color: var(--color_main_1);
+    transition: background 1s ease-in;
+    animation: background-anim 1s infinite ease-in alternate;
+}
+
+main {
+    background-color: white;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3rem;
+    border-radius: 6px;
+    box-shadow: 3px 3px 10px var(--color_box_shadow);
+    max-width: min(500px, 100%);
+    text-align: center;
+}
+
+main h1 {
+    font-size: 1rem;
+    color: var(--off-color_1);
+    letter-spacing: 1px;
+}
+
+main p {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+}
+
+main button {
+    border: none;
+    color: white;
+    background-color: var(--color_main_2);
+    outline: none;
+    padding: 8px 24px;
+    font-weight: bold;
+    font-family: inherit;
+    border-radius: 6px;
+    box-shadow: 3px 3px 10px var(--color_box_shadow);
+    cursor: pointer;
+    transition: background-color .3s ease-in, box-shadow .3s, transform .3s;
+}
+
+main button:disabled {
+    background-color: var(--off_color_2);
+    cursor: not-allowed;
+}
+
+button:not(:disabled):active,
+button:not(:disabled):hover {
+    background-color: var(--color_main_1);
+    transform: translate(-1px, -1px);
+    box-shadow: 6px 6px 10px var(--color_box_shadow);
+}
+
+button:not(:disabled):active {
+    transform: translate(1px, 1px);
+}
+
+.spinner {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.spinner::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 3px solid var(--off_color_2);
+    border-radius: 50%;
+    border-bottom-color: var(--color_main_2);
+    animation: spinner 0.7s infinite linear;
+}
+
+.typing::after {
+    content: '|';
+    color: var(--color_main_1);
+    animation: cursor 0.3s infinite alternate;
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes background-anim {
+    from {
+        transform: translateX(-100vw);
+    }
+    to {
+        transform: translateX(100vw);
+    }
+}
+
+@keyframes cursor {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
